@@ -25,6 +25,10 @@ from launch.events import Shutdown
 
 from . import output
 
+import os
+# force launch_ros to kill on shutdown, to prevent logspam
+os.environ['KILL_ON_SHUTDOWN'] = 'True'
+
 
 class LaunchTestService():
 

@@ -288,7 +288,9 @@ class ExecuteLocal(Action):
         # Otherwise process is still running, start the shutdown procedures.
         context.extend_locals({'process_name': self.process_details['name']})
         actions_to_return = self.__get_shutdown_timer_actions()
-        if send_sigint:
+        if os.getenv('KILL_ON_SHUTDOWN') == 'True':
+            actions_to_return = [self.__get_sigkill_event()]
+        elif send_sigint:
             actions_to_return.append(self.__get_sigint_event())
         return actions_to_return
 
@@ -495,6 +497,11 @@ class ExecuteLocal(Action):
     def __get_sigint_event(self):
         return EmitEvent(event=SignalProcess(
             signal_number=signal.SIGINT,
+            process_matcher=matches_action(self),
+        ))
+    def __get_sigkill_event(self):
+        return EmitEvent(event=SignalProcess(
+            signal_number='SIGKILL',
             process_matcher=matches_action(self),
         ))
 
