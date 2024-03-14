@@ -325,9 +325,10 @@ def get_logger(name=None) -> logging.Logger:
     screen_handler = launch_config.get_screen_handler()
     if screen_handler not in logger.handlers:
         logger.addHandler(screen_handler)
-    launch_log_file_handler = launch_config.get_log_file_handler()
-    if launch_log_file_handler not in logger.handlers:
-        logger.addHandler(launch_log_file_handler)
+    # removes file logging, see also https://answers.ros.org/question/371795/ros2-disable-logging-to-file/
+    # launch_log_file_handler = launch_config.get_log_file_handler()
+    # if launch_log_file_handler not in logger.handlers:
+    #     logger.addHandler(launch_log_file_handler)
     return logger
 
 
