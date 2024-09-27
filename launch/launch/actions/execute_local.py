@@ -332,9 +332,10 @@ class ExecuteLocal(Action):
             typed_event = SignalProcess(
                 signal_number=signal.SIGTERM,
                 process_matcher=lambda process: True)
-        self.__logger.info("sending signal '{}' to process[{}]".format(
-            typed_event.signal_name, self.process_details['name']
-        ))
+        if not context.is_shutdown:
+            self.__logger.info("sending signal '{}' to process[{}]".format(
+                typed_event.signal_name, self.process_details['name']
+            ))
         try:
             if typed_event.signal_name == 'SIGKILL':
                 self._subprocess_transport.kill()  # works on both Windows and POSIX
