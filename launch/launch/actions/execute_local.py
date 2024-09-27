@@ -595,9 +595,10 @@ class ExecuteLocal(Action):
         if returncode == 0:
             self.__logger.info('process has finished cleanly [pid {}]'.format(pid))
         else:
-            self.__logger.error("process has died [pid {}, exit code {}, cmd '{}'].".format(
-                pid, returncode, ' '.join(filter(lambda part: part.strip(), cmd))
-            ))
+            if not context.is_shutdown:
+                self.__logger.error("process has died [pid {}, exit code {}, cmd '{}'].".format(
+                    pid, returncode, ' '.join(filter(lambda part: part.strip(), cmd))
+                ))
         await context.emit_event(
                 ProcessExited(returncode=returncode, **process_event_args)
                 )
