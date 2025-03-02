@@ -293,7 +293,9 @@ class ExecuteLocal(Action):
         # Otherwise process is still running, start the shutdown procedures.
         context.extend_locals({'process_name': self.process_details['name']})
         actions_to_return = self.__get_shutdown_timer_actions()
-        if send_sigint:
+        if os.getenv('KILL_ON_SHUTDOWN') == 'True':
+            actions_to_return = [self.__get_sigkill_event()]
+        elif send_sigint:
             actions_to_return.append(self.__get_sigint_event())
         return actions_to_return
 
@@ -335,9 +337,10 @@ class ExecuteLocal(Action):
             typed_event = SignalProcess(
                 signal_number=signal.SIGTERM,
                 process_matcher=lambda process: True)
-        self.__logger.info("sending signal '{}' to process[{}]".format(
-            typed_event.signal_name, self.process_details['name']
-        ))
+        if not context.is_shutdown:
+            self.__logger.info("sending signal '{}' to process[{}]".format(
+                typed_event.signal_name, self.process_details['name']
+            ))
         try:
             if typed_event.signal_name == 'SIGKILL':
                 self._subprocess_transport.kill()  # works on both Windows and POSIX
@@ -502,6 +505,11 @@ class ExecuteLocal(Action):
             signal_number=signal.SIGINT,
             process_matcher=matches_action(self),
         ))
+    def __get_sigkill_event(self):
+        return EmitEvent(event=SignalProcess(
+            signal_number='SIGKILL',
+            process_matcher=matches_action(self),
+        ))
 
     def __cleanup(self):
         # Cancel any pending timers we started.
@@ -593,9 +601,10 @@ class ExecuteLocal(Action):
         if returncode == 0:
             self.__logger.info('process has finished cleanly [pid {}]'.format(pid))
         else:
-            self.__logger.error("process has died [pid {}, exit code {}, cmd '{}'].".format(
-                pid, returncode, ' '.join(filter(lambda part: part.strip(), cmd))
-            ))
+            if not context.is_shutdown:
+                self.__logger.error("process has died [pid {}, exit code {}, cmd '{}'].".format(
+                    pid, returncode, ' '.join(filter(lambda part: part.strip(), cmd))
+                ))
         await context.emit_event(
                 ProcessExited(returncode=returncode, **process_event_args)
                 )
