@@ -2,6 +2,33 @@
 Changelog for package launch_xml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.10 (2026-01-12)
+-------------------
+* [jazzy] Allow Path in substitutions, instead of requiring cast to str (backport `#873 <https://github.com/ros2/launch/issues/873>`_) (`#927 <https://github.com/ros2/launch/issues/927>`_)
+* Contributors: mergify[bot]
+
+3.4.9 (2025-11-07)
+------------------
+
+3.4.8 (2025-10-17)
+------------------
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#912 <https://github.com/ros2/launch/issues/912>`_)
+* Contributors: mergify[bot]
+
+3.4.7 (2025-10-06)
+------------------
+* Allow providing launch args to include using let in frontends (backport `#848 <https://github.com/ros2/launch/issues/848>`_) (`#910 <https://github.com/ros2/launch/issues/910>`_)
+* Contributors: mergify[bot]
+
+3.4.6 (2025-08-06)
+------------------
+
+3.4.5 (2025-06-23)
+------------------
+
+3.4.4 (2025-04-02)
+------------------
+
 3.4.3 (2024-12-18)
 ------------------
 
@@ -201,4 +228,3 @@ Changelog for package launch_xml
 * Add parsing method for `DeclareLaunchArgument` (`#270 <https://github.com/ros2/launch/issues/270>`_)
 * Add frontend module in launch, launch_xml and launch_yaml packages (`#226 <https://github.com/ros2/launch/issues/226>`_)
 * Contributors: Dirk Thomas, ivanpauno
-

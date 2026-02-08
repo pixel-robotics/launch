@@ -2,6 +2,32 @@
 Changelog for package launch_testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.10 (2026-01-12)
+-------------------
+
+3.4.9 (2025-11-07)
+------------------
+
+3.4.8 (2025-10-17)
+------------------
+
+3.4.7 (2025-10-06)
+------------------
+
+3.4.6 (2025-08-06)
+------------------
+
+3.4.5 (2025-06-23)
+------------------
+
+3.4.4 (2025-04-02)
+------------------
+* Merge pull request `#834 <https://github.com/ros2/launch/issues/834>`_ from ros2/mergify/bp/jazzy/pr-833
+  Fix function params indentation (backport `#833 <https://github.com/ros2/launch/issues/833>`_)
+* Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
+  (cherry picked from commit 151b024a7cfac06f0d56798cbe87ab180b9ea3ab)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard
+
 3.4.3 (2024-12-18)
 ------------------
 

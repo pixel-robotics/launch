@@ -2,6 +2,56 @@
 Changelog for package launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.4.10 (2026-01-12)
+-------------------
+* [jazzy] Allow Path in substitutions, instead of requiring cast to str (backport `#873 <https://github.com/ros2/launch/issues/873>`_) (`#927 <https://github.com/ros2/launch/issues/927>`_)
+* Fix intersphinx_mapping format (`#921 <https://github.com/ros2/launch/issues/921>`_) (`#923 <https://github.com/ros2/launch/issues/923>`_)
+* Contributors: mergify[bot]
+
+3.4.9 (2025-11-07)
+------------------
+* [backport jazzy] Make the directory-finding substitutions into a PathSubstitution for / operator (backport `#914 <https://github.com/ros2/launch//issues/914>`_) (`#918 <https://github.com/ros2/launch//issues/918>`_)
+* Contributors: mergify[bot]
+
+3.4.8 (2025-10-17)
+------------------
+* Fix all/any in xml and yaml launch files (backport `#906 <https://github.com/ros2/launch/issues/906>`_) (`#912 <https://github.com/ros2/launch/issues/912>`_)
+* Contributors: mergify[bot]
+
+3.4.7 (2025-10-06)
+------------------
+* Allow providing launch args to include using let in frontends (backport `#848 <https://github.com/ros2/launch/issues/848>`_) (`#910 <https://github.com/ros2/launch/issues/910>`_)
+* Contributors: mergify[bot]
+
+3.4.6 (2025-08-06)
+------------------
+* Using `TimerAction` with `SetParameter` from launch_ros causes crash (backport `#879 <https://github.com/ros2/launch/issues/879>`_) (`#893 <https://github.com/ros2/launch/issues/893>`_)
+  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
+* Remove LaunchDescriptionArgument (`#891 <https://github.com/ros2/launch/issues/891>`_) (`#896 <https://github.com/ros2/launch/issues/896>`_)
+  (cherry picked from commit 8fd76bb11c45cdd072b5f3ef4f3800ff63ee3c9a)
+  Co-authored-by: Harrison Chen <hchen.robotics@gmail.com>
+* Contributors: Rafal Gorecki, mergify[bot]
+
+3.4.5 (2025-06-23)
+------------------
+* Provide copy of launch configs to TimerAction's entities (`#836 <https://github.com/ros2/launch/issues/836>`_) (`#878 <https://github.com/ros2/launch/issues/878>`_)
+* [backport jazzy] Add a `/` path join operator for `PathJoinSubstitution` (`#868 <https://github.com/ros2/launch/issues/868>`_) (`#880 <https://github.com/ros2/launch/issues/880>`_)
+* Contributors: Emerson Knapp, Kenji Brameld (TRACLabs)
+
+3.4.4 (2025-04-02)
+------------------
+* Document substitutions concatenation in architecture doc (`#845 <https://github.com/ros2/launch/issues/845>`_) (`#846 <https://github.com/ros2/launch/issues/846>`_)
+  (cherry picked from commit 6fcc79e38fa711e04be3d392a6691a36ea5de214)
+  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
+* Update docs to use proper RST literals (`#837 <https://github.com/ros2/launch/issues/837>`_) (`#839 <https://github.com/ros2/launch/issues/839>`_)
+  (cherry picked from commit 3694dc2a14fdf0dd5ccf9e950ab9d8b60bee8a79)
+  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
+* Merge pull request `#834 <https://github.com/ros2/launch/issues/834>`_ from ros2/mergify/bp/jazzy/pr-833
+  Fix function params indentation (backport `#833 <https://github.com/ros2/launch/issues/833>`_)
+* Fix function params indentation (`#833 <https://github.com/ros2/launch/issues/833>`_)
+  (cherry picked from commit 151b024a7cfac06f0d56798cbe87ab180b9ea3ab)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard, mergify[bot]
+
 3.4.3 (2024-12-18)
 ------------------
 * Fix 'set up' typo (`#813 <https://github.com/ros2/launch/issues/813>`_) (`#814 <https://github.com/ros2/launch/issues/814>`_)
