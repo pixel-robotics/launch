@@ -91,7 +91,7 @@ class LaunchDescription(LaunchDescriptionEntity):
         ]
 
     def get_launch_arguments_with_include_launch_description_actions(
-        self, conditional_inclusion=False
+        self, conditional_inclusion=False, *, nested_includes=True
     ) -> List[Tuple[DeclareLaunchArgument, List['IncludeLaunchDescription']]]:
         """
         Return a list of launch arguments with its associated include launch descriptions actions.
@@ -122,6 +122,11 @@ class LaunchDescription(LaunchDescriptionEntity):
         Duplicate declarations of an argument are ignored, therefore the
         default value and description from the first instance of the argument
         declaration is used.
+
+        With ``nested_includes=False`` the launch descriptions of nested
+        :py:class:`launch.actions.IncludeLaunchDescription` actions are not
+        searched (and so not loaded): only the arguments this launch description
+        declares itself are returned.
         """
         from .actions import IncludeLaunchDescription  # noqa: F811
         declared_launch_arguments: List[
@@ -145,6 +150,8 @@ class LaunchDescription(LaunchDescriptionEntity):
                 else:
                     next_nested_ild_actions = nested_ild_actions
                     if isinstance(entity, IncludeLaunchDescription):
+                        if not nested_includes:
+                            continue
                         if next_nested_ild_actions is None:
                             next_nested_ild_actions = []
                         next_nested_ild_actions.append(entity)

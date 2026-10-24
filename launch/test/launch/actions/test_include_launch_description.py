@@ -230,3 +230,57 @@ def test_include_python():
         assert len(action.launch_arguments) == 0
 
         assert action.launch_description_source.location == str(simple_launch_file_path)
+
+
+_COUNTING_LAUNCH_FILE = """
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+
+def generate_launch_description():
+    with open({counter!r}, 'a') as f:
+        f.write({name!r} + '\\n')
+    entities = [DeclareLaunchArgument({name!r} + '_arg', default_value='1')]
+    if {nested!r}:
+        entities.append(IncludeLaunchDescription(PythonLaunchDescriptionSource({nested!r})))
+    return LaunchDescription(entities)
+"""
+
+
+def test_include_python_nested_loads_once(tmp_path):
+    """Each nested python launch file is loaded once, when its include executes."""
+    counter = tmp_path / 'loads'
+    files = {}
+    nested = ''
+    for name in ('inner', 'middle', 'outer'):
+        files[name] = tmp_path / f'{name}.launch.py'
+        files[name].write_text(
+            _COUNTING_LAUNCH_FILE.format(counter=str(counter), name=name, nested=nested))
+        nested = str(files[name])
+
+    ls = LaunchService()
+    ls.include_launch_description(LaunchDescription([
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(str(files['outer'])))
+    ]))
+    assert 0 == ls.run()
+    assert sorted(counter.read_text().split()) == ['inner', 'middle', 'outer']
+
+    # get_launch_arguments() still searches the nested includes (ros2 launch --show-args)
+    counter.unlink()
+    arguments = LaunchDescription([
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(str(files['outer'])))
+    ]).get_launch_arguments()
+    assert sorted(a.name for a in arguments) == ['inner_arg', 'middle_arg', 'outer_arg']
+
+
+def test_include_nested_required_argument_still_raises():
+    """A nested include checks its own required arguments when it executes."""
+    inner = LaunchDescription([DeclareLaunchArgument('foo')])
+    middle = LaunchDescription([IncludeLaunchDescription(LaunchDescriptionSource(inner))])
+    ls = LaunchService()
+    ls.include_launch_description(LaunchDescription([
+        IncludeLaunchDescription(LaunchDescriptionSource(middle))
+    ]))
+    assert 1 == ls.run()

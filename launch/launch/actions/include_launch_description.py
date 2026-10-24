@@ -218,8 +218,15 @@ class IncludeLaunchDescription(Action):
             perform_substitutions(context, normalize_to_list_of_substitutions(arg_name))
             for arg_name, arg_value in self.launch_arguments
         ]
+        # Only the arguments the included launch description declares itself: every
+        # nested IncludeLaunchDescription runs this check again when it executes, with
+        # only its own launch arguments, which is stricter than checking its arguments
+        # here. Searching the nested ones would load their launch files without a
+        # context just to throw the result away, so a python launch file N includes
+        # deep would run its generate_launch_description() N + 1 times.
         declared_launch_arguments = (
-            launch_description.get_launch_arguments_with_include_launch_description_actions())
+            launch_description.get_launch_arguments_with_include_launch_description_actions(
+                nested_includes=False))
         for argument, ild_actions in declared_launch_arguments:
             if argument._conditionally_included or argument.default_value is not None:
                 continue
